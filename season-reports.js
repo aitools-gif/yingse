@@ -4,7 +4,7 @@ window.initSeasonCarousels=function init(root){
  root.stopSeasonAutoplay?.();const disposers=[];root.stopSeasonAutoplay=()=>disposers.splice(0).forEach(f=>f());
  root.querySelectorAll('.look-wheel').forEach(wheel=>{
  const stage=wheel.querySelector('.look-stage'),cards=[...wheel.querySelectorAll('.look-slide')],dots=[...wheel.querySelectorAll('[data-pick]')];let active=0,timer=null,manual=false,visible=false,down=null,dragged=false;
- const clear=()=>{clearTimeout(timer);timer=null;};const schedule=()=>{clear();if(!manual&&visible&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setTimeout(()=>go(active+1),1500);};
+ const clear=()=>{clearTimeout(timer);timer=null;};const schedule=()=>{clear();if(!manual&&visible&&!document.hidden&&!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setTimeout(()=>go(active+1),2000);};
  const go=(i,user=false)=>{if(user){manual=true;clear();}active=(i+cards.length)%cards.length;
  cards.forEach((card,j)=>{let d=(j-active+cards.length)%cards.length;if(d>cards.length/2)d-=cards.length;const a=Math.abs(d);card.style.transform='translateX(calc(-50% + '+(Math.sign(d)*(a===1?48:86))+'%)) translateZ('+(-a*65)+'px) rotateY('+(-Math.sign(d)*(a===1?15:a===2?25:0))+'deg) scale('+(a===0?1:a===1?.78:.6)+')';card.style.opacity=a>2?'0':a===2?'.7':a===1?'.85':'1';card.style.zIndex=String(10-a);card.style.pointerEvents=a>2?'none':'auto';card.setAttribute('aria-pressed',String(j===active));card.tabIndex=a>2?-1:0;});
  dots.forEach((b,j)=>b.setAttribute('aria-current',String(j===active)));schedule();};
